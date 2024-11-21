@@ -8,8 +8,8 @@ title:  Real-Time Insights for Your Channel
 <h1 class="text-center font-bold text-5xl "> YOUR SOCIAL MEDIA ANALYTICS HUB</h1>
 <p class="text-center tracking-wider -mt-4 mb-16">Track, analyze, and grow your social presence with actionable insights and real-time data.</p>
 {% block content %}
-<form class="mb-4 flex px-[15%]">
-    <input type="text" class="border border-gray-300  p-2 w-full font-light italic text-gray-200 tracking-wider" placeholder="Enter your channel username..." /> 
+<form class="mb-4 flex px-[15%] " id="search-form">
+    <input id="channel-username" type="text" class="border border-gray-300  p-2 w-full font-light italic text-gray-500 tracking-wider" placeholder="Enter your channel username..." /> 
     <button type="submit" class="bg-red-500 text-white  py-2 px-10" > Search </button>
 </form> <div id="results"> <!-- Search results will appear here --> </div> 
 {% endblock %}
