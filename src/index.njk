@@ -1,41 +1,43 @@
 ---
 layout: base.njk
-title:  Real-Time Insights for Your Channel
+title: Real-Time Insights for Your Channel
 ---
 
-<section class="mx-auto  text-gray-700" style="background: url(https://images.pexels.com/photos/207924/pexels-photo-207924.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1) no-repeat top; background-size: cover;">
-<div class="px-[12%] bg-white/80 py-48">
-<h1 class="text-center font-bold text-5xl "> YOUR SOCIAL MEDIA ANALYTICS HUB</h1>
-<p class="text-center tracking-wider -mt-4 mb-16">Track, analyze, and grow your social presence with actionable insights and real-time data.</p>
-{% block content %}
-<form class="mb-4 flex px-[15%] " id="search-form">
-    <input id="channel-username" type="text" class="border border-gray-300  p-2 w-full font-light italic text-gray-500 tracking-wider" placeholder="Enter your channel username..." /> 
-    <button type="submit" class="bg-red-500 text-white  py-2 px-10" > Search </button>
-</form> <div id="results"> <!-- Search results will appear here --> </div> 
-{% endblock %}
-</div>
+<section class="mx-auto text-gray-700" style="background: url(https://images.pexels.com/photos/207924/pexels-photo-207924.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1) no-repeat top; background-size: cover;">
+  <div class="px-[12%] bg-white/80 py-48">
+    <h1 class="text-center font-bold text-5xl">YOUR SOCIAL MEDIA ANALYTICS HUB</h1>
+    <p class="text-center tracking-wider -mt-4 mb-16">Track, analyze, and grow your social presence with actionable insights and real-time data.</p>
+
+    <form class="mb-4 flex px-[15%]" id="search-form">
+      <input id="channel-username" type="text" class="border border-gray-300 p-2 w-full font-light italic text-gray-500 tracking-wider" placeholder="Enter your channel username..." /> 
+      <button type="submit" class="bg-red-500 text-white py-2 px-10">Search</button>
+    </form> 
+    <div id="results">
+      <!-- Search results will appear here -->
+    </div> 
+  </div>
 </section>
-<div id="results" class="">
-
-</div>
-
-
-
 
 <script>
-    document.getElementById('search-form').addEventListener('submit', async (e) => {
-e.preventDefault();
-const username = document.getElementById('channel-username').value;
+  document.getElementById('search-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const username = document.getElementById('channel-username').value;
 
-//call Netlify Function to fetch data
-const response = await fetch('/netlify/functions/youtube?channelId=${username}');
-const data = await response.json();
+    // Call Netlify function to fetch data
+    const response = await fetch(`/.netlify/functions/fetch-youtube?channelId=${username}`);
+    const data = await response.json();
 
-//display data
-const resultsDiv = document.getElementById('results');
-resultsDiv.innerHTML = `
-<h2 class="text-2xl font-bold">Channel Statistics</h2> <p>Subscribers: ${data.items[0].statistics.subscriberCount}</p> <p>Total Views: ${data.items[0].statistics.viewCount}</p> <p>Total Videos: ${data.items[0].statistics.videoCount}</p>
-`;
-   
-});
+    // Display data
+    const resultsDiv = document.getElementById('results');
+    if (data.items && data.items.length > 0) {
+      resultsDiv.innerHTML = `
+        <h2 class="text-2xl font-bold">Channel Statistics</h2>
+        <p>Subscribers: ${data.items[0].statistics.subscriberCount}</p>
+        <p>Total Views: ${data.items[0].statistics.viewCount}</p>
+        <p>Total Videos: ${data.items[0].statistics.videoCount}</p>
+      `;
+    } else {
+      resultsDiv.innerHTML = `<p class="text-red-500">No data found for the specified username.</p>`;
+    }
+  });
 </script>
