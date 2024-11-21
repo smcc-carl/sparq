@@ -1,0 +1,38 @@
+@font-face { font-family: 'Aileron'; src: url('/assets/fonts/aileron/aileron.woff2') format('woff2'), url('/assets/fonts/aileron/aileron.woff') format('woff'); font-weight: normal; font-style: normal; } 
+@font-face { font-family: 'BodyGrotesque'; src: url('/assets/fonts/bodygrotesque/BodyGrotesque.woff2') format('woff2'), url('/assets/fonts/bodygrotesque/BodyGrotesque.woff') format('woff'); font-weight: black; font-style: normal; } 
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body{
+    font-family: 'Aileron', 'BodyGrotesque', sans-serif;
+    background-color: #fff;
+}
+
+
+@layer base {
+    h1 {
+        @apply text-4xl font-semibold mb-6;
+    }
+    h2 {
+        @apply text-3xl font-semibold mb-4;
+    }
+    h3 {
+        @apply text-2xl font-medium mb-2;
+    }
+    blockquote {
+        @apply border-l-4 pl-4 italic text-gray-600 bg-gray-50 mb-4; /* Adjust styles as needed */
+    }
+    p {
+        @apply mb-4; /* Adds margin to paragraphs */
+    }
+    /* Line breaks (if you're using <br> tags) */
+    br {
+        @apply mb-2; /* Adds space below line breaks */
+    }
+    emp {
+        @apply text-blue-500 font-semibold; /* Adds emphasis to text */   
+    }
+}
+
