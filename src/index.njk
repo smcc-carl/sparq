@@ -9,7 +9,7 @@ title: Real-Time Insights for Your Channel
     <p class="text-center tracking-wider -mt-4 mb-16">Track, analyze, and grow your social presence with actionable insights and real-time data.</p>
 
     <form class="mb-4 flex px-[15%]" id="search-form">
-      <input id="channel-username" type="text" class="border border-gray-300 p-2 w-full font-light italic text-gray-500 tracking-wider" placeholder="Enter your channel username..." /> 
+      <input id="channel-id" type="text" class="border border-gray-300 p-2 w-full font-light italic text-gray-500 tracking-wider" placeholder="Enter your channel ID..." /> 
       <button type="submit" class="bg-red-500 text-white py-2 px-10">Search</button>
     </form> 
     <div id="results">
@@ -19,25 +19,41 @@ title: Real-Time Insights for Your Channel
 </section>
 
 <script>
-  document.getElementById('search-form').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const username = document.getElementById('channel-username').value;
-
-    // Call Netlify function to fetch data
-    const response = await fetch(`/.netlify/functions/fetch-youtube?channelId=${username}`);
-    const data = await response.json();
-
-    // Display data
-    const resultsDiv = document.getElementById('results');
-    if (data.items && data.items.length > 0) {
-      resultsDiv.innerHTML = `
-        <h2 class="text-2xl font-bold">Channel Statistics</h2>
-        <p>Subscribers: ${data.items[0].statistics.subscriberCount}</p>
-        <p>Total Views: ${data.items[0].statistics.viewCount}</p>
-        <p>Total Videos: ${data.items[0].statistics.videoCount}</p>
-      `;
-    } else {
-      resultsDiv.innerHTML = `<p class="text-red-500">No data found for the specified username.</p>`;
-    }
-  });
-</script>
+    document.getElementById('search-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const channelId = document.getElementById('channel-id').value;
+      
+      // Ensure the channel ID is captured
+      console.log('Channel ID:', channelId);
+  
+      // Call Netlify function to fetch data
+      const response = await fetch(`/.netlify/functions/fetch-youtube?channelId=${channelId}`);
+      
+      // Log the response status and content
+      console.log('Response Status:', response.status);
+      console.log('Response Content:', response.text());
+  
+      // Check if the response is JSON
+      if (response.ok) {
+        const data = await response.json();
+        console.log('Response Data:', data);
+  
+        // Display data
+        const resultsDiv = document.getElementById('results');
+        if (data.items && data.items.length > 0) {
+          resultsDiv.innerHTML = `
+            <h2 class="text-2xl font-bold">Channel Statistics</h2>
+            <p>Subscribers: ${data.items[0].statistics.subscriberCount}</p>
+            <p>Total Views: ${data.items[0].statistics.viewCount}</p>
+            <p>Total Videos: ${data.items[0].statistics.videoCount}</p>
+          `;
+        } else {
+          resultsDiv.innerHTML = `<p class="text-red-500">No data found for the specified channel ID.</p>`;
+        }
+      } else {
+        resultsDiv.innerHTML = `<p class="text-red-500">Error fetching data: ${response.statusText}</p>`;
+      }
+    });
+  </script>
+  
+  
